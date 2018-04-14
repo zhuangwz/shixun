@@ -1,11 +1,12 @@
 # VI、Java、Ant和Junit的自学报告
 ### VI
 此次我将使用VI编辑器编写一个简单的Java程序。
-进入编辑器后输入i来编写代码，之后键入‘：wq’来保存退出，过程截图如下：
+进入编辑器后输入i来编写代码，之后键入‘Esc’和‘：wq’来保存退出，过程截图如下：
+![这里写图片描述](https://img-blog.csdn.net/20180414111618221?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zNjMwODQ0NQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
 
 ### Java
 我用上面VI编辑器编辑的Hello.java程序进行编译运行，没有出现问题，结果如下图：
-
+![这里写图片描述](https://img-blog.csdn.net/20180414112139682?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zNjMwODQ0NQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
 
 ### 熟悉Ant环境并学习Ant，利用Ant实现Hello的自动编译
 云平台已经配置好了Ant环境，因此我便跳过Ant环境配置这一步。
