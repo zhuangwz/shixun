@@ -1,0 +1,14 @@
+#required metadata
+#projectKey can't repeat
+sonar.projectKey=Part1
+sonar.projectName=Part1
+sonar.projectVersion=1.0
+sonar.sourceEncoding=UTF-8
+sonar.modules=java-module
+
+#Java module
+java-module.sonar.projectName=Java Module
+java-module.sonar.language=java
+# . represent projectBaseDir -> dir
+java-module.sonar.sources=.
+java-module.sonar.projectBaseDir=src
