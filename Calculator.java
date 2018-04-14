@@ -57,15 +57,18 @@ public class Calculator {
                 else{
                     if (pre.getText() == "" || back.getText() == "")
                         return;
-                    if(s=="+"){
-                        result.setText(String.valueOf(Double.parseDouble(pre.getText()) + Double.parseDouble(back.getText())));
+                    double a=Double.parseDouble(pre.getText());
+                    double b=Double.parseDouble(back.getText());
+                    s = symbol.getText();
+                    if(s.equals("+")){
+                        result.setText(String.valueOf(a + b));
                     }
-                    else if(s=="-")
-                        result.setText(String.valueOf(Double.parseDouble(pre.getText()) - Double.parseDouble(back.getText())));
-                    else if(s=="*")
-                        result.setText(String.valueOf(Double.parseDouble(pre.getText()) * Double.parseDouble(back.getText())));
-                    else
-                        result.setText(String.valueOf(Double.parseDouble(pre.getText()) / Double.parseDouble(back.getText())));
+                    else if(s.equals("-"))
+                        result.setText(String.valueOf(a - b));
+                    else if(s.equals("*"))
+                        result.setText(String.valueOf(a * b));
+                    else if(s.equals("/"))
+                        result.setText(String.valueOf(a / b));
                 }
             }
         }
