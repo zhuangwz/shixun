@@ -24,6 +24,8 @@ public class MazeBug extends Bug {
 	public Integer stepCount = 0;
 	boolean hasShown = false;//final message has been shown
 
+	int[] priority = {1,1,1,1};
+
 	/**
 	 * Constructs a box bug that traces a square of a given side length
 	 * 
@@ -39,6 +41,12 @@ public class MazeBug extends Bug {
 	 * Moves to the next location of the square.
 	 */
 	public void act() {
+		if(stepCount == 0){
+			last = getLocation();
+			ArrayList<Location> current = new ArrayList<Location>();
+			current.add(last);
+			crossLocation.add(current);
+		}
 		boolean willMove = canMove();
 		if (isEnd == true) {
 		//to show step count when reach the goal		
@@ -48,12 +56,34 @@ public class MazeBug extends Bug {
 				hasShown = true;
 			}
 		} else if (willMove) {
+			Location old = getLocation();
+			if(getValid(old).size() > 1){
+				crossLocation.push(new ArrayList<Location>());
+			}
+			last = old;
 			move();
 			//increase step count when move 
 			stepCount++;
+			//
+			ArrayList<Location> current = crossLocation.pop();
+			current.add(getLocation());
+			crossLocation.push(current);
+			if(current.size() == 1){
+				int a = old.getDirectionToward(getLocation()) / 90;
+				priority[a]++;
+			}
 		} else {
+			ArrayList<Location> current = crossLocation.pop();
+			current.remove(current.size()-1);
+			if(current.size() > 0)
+				crossLocation.push(current);
 			backTrack();
 			stepCount++;
+			if(current.size() == 0){
+				int a = old.getDirectionToward(getLocation()) / 90;
+				if(priority[a] > 1)
+					priority[a]--;
+			}
 		}
 	}
 
@@ -79,15 +109,16 @@ public class MazeBug extends Bug {
 					Actor actor = gr.get(nx);
 
 					//
-					if(actor instanceof Rock && actor.getColor().equals(new Color(255,0,0))){
+					if(actor instanceof Rock && actor.getColor().equals(Color.RED)){
 						isEnd = true;
-						valid.add(nx);
-						setDirection(getLocation().getDirectionToward(nx));
-						moveTo(nx);
+						next = nx;
+						valid.Clear();
+						valid.add(next);
+						return valid;
 					}
 
 					//
-					else if( (actor == null || actor instanceof Flower) && !top.contains(nx)){
+					else if( actor == null && !top.contains(nx)){
 						valid.add(nx);
 					}
 				}
@@ -119,7 +150,8 @@ public class MazeBug extends Bug {
 		Location loc = getLocation();
 		//
 		ArrayList<Location> valid = getValid(loc);
-		next = 
+		//
+		next = valid.get(getNext(valid));
 
 		if (gr.isValid(next)) {
 			setDirection(getLocation().getDirectionToward(next));
@@ -128,5 +160,32 @@ public class MazeBug extends Bug {
 			removeSelfFromGrid();
 		Flower flower = new Flower(getColor());
 		flower.putSelfInGrid(gr, loc);
+	}
+
+	private int getNext(ArrayList<Location> valid){
+		Random rand = new Random();
+
+		int max = 0;
+		int res = 0;
+		int i = 0;
+		for(Location loc : valid){
+			int dir = getLocation().getDirectionToward(loc);
+			if(priority[dir/90] > max){
+				max = priority[dir/90];
+				res = i;
+			}
+			i++;
+		}
+		return res;
+	}
+
+	private void backTrack(){
+		Grid<Actor> gr = getGrid();
+		Location loc = getLocation();
+		setDirection(loc.getDirectionToward(last));
+		moveTo(last);
+
+		Flower flower = new Flower(getColor());
+		flower.putSelfInGrid(gr, last);
 	}
 }
